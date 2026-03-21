@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>ELA — Error Level Analysis</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="hdr-wrap">
+      <div class="logo">
+        <div class="logo-box">
+          <span class="icon icon-logo logo-svg" aria-hidden="true"></span>
+        </div>
+        <div><h1 class="logo-title">ELA</h1><p class="logo-sub">Error Level Analysis</p></div>
+      </div>
+      <div class="header-actions">
+        <a class="btn btn-ghost btn-sm header-link" href="https://en.wikipedia.org/wiki/Error_level_analysis" target="_blank" rel="noopener noreferrer">
+          Docs <span class="link-arrow" aria-hidden="true">↗</span>
+        </a>
+        <button id="resetBtn" class="btn btn-ghost btn-sm" style="display:none;">
+          <span class="icon icon-reset btn-ico" aria-hidden="true"></span>
+          New Analysis
+        </button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div id="uploadState" class="upload">
+      <div class="upload-head">
+        <h2 class="grad-text">Detect Image Tampering</h2>
+        <p class="upload-desc">Upload an image to perform ELA. It reveals inconsistencies in JPEG compression that may indicate manipulation.</p>
+      </div>
+      <div id="dropZone" class="drop-zone">
+        <input type="file" id="fileIn" class="file-hide" accept="image/*">
+        <div class="drop-icon-box">
+          <span class="icon icon-upload drop-icon" aria-hidden="true"></span>
+        </div>
+        <p class="drop-text">Drop an image here or click to upload</p>
+        <p class="drop-formats">Supports JPEG, PNG, WebP</p>
+      </div>
+      <div class="steps">
+        <div class="step"><span class="step-num">01</span><h3 class="step-name">Upload</h3><p class="step-info">Select JPEG or PNG</p></div>
+        <div class="step"><span class="step-num">02</span><h3 class="step-name">Analyze</h3><p class="step-info">ELA compares compression</p></div>
+        <div class="step"><span class="step-num">03</span><h3 class="step-name">Detect</h3><p class="step-info">Bright areas indicate edits</p></div>
+      </div>
+    </div>
+    <div id="analysisState" class="grid" style="display:none;">
+      <div class="viewer">
+        <div class="toggle">
+          <button id="btnOrig" class="btn btn-pri btn-sm">
+            <span class="icon icon-original btn-ico" aria-hidden="true"></span> Original
+          </button>
+          <button id="btnEla" class="btn btn-ghost btn-sm" disabled>
+            <span class="icon icon-ela btn-ico" aria-hidden="true"></span> ELA Result
+          </button>
+        </div>
+        <div class="img-box">
+          <div id="overlay" class="overlay" style="display:none;">
+            <div class="loader">
+              <span class="icon icon-spinner spinner" aria-hidden="true"></span>
+              <p class="loader-text">Analyzing...</p>
+            </div>
+            <div class="scan"></div>
+          </div>
+          <img id="img" class="img-show" src="" alt="Analysis">
+        </div>
+      </div>
+      <div class="sidebar">
+        <div class="card">
+          <h3 class="card-title">Parameters</h3>
+          <div class="slider">
+            <div class="slider-head"><span>JPEG Quality</span><span id="qVal">75%</span></div>
+            <input type="range" id="qSlider" min="50" max="95" step="5" value="75">
+          </div>
+          <div class="slider">
+            <div class="slider-head"><span>Amplification</span><span id="aVal">15x</span></div>
+            <input type="range" id="aSlider" min="5" max="30" step="1" value="15">
+          </div>
+          <button id="runBtn" class="btn btn-pri btn-full"><span class="icon icon-upload btn-ico-lg" aria-hidden="true"></span>Run ELA Analysis</button>
+        </div>
+        <div id="results" style="display:none;">
+          <div id="vCard" class="verdict">
+            <div class="v-head"><span id="vIcon" class="v-icon icon" aria-hidden="true"></span>
+            <div><h3 id="vLabel" class="v-label"></h3><p id="vDesc" class="v-desc"></p></div></div>
+            <div class="conf">
+              <div class="conf-head"><span>Confidence</span><span id="confVal">0%</span></div>
+              <div class="conf-bg"><div id="confBar" class="conf-fill"></div></div>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat"><p class="stat-lbl">Max Diff</p><p id="sMax" class="stat-val">—</p></div>
+            <div class="stat"><p class="stat-lbl">Avg Diff</p><p id="sAvg" class="stat-val">—</p></div>
+            <div class="stat"><p class="stat-lbl">Suspicious</p><p id="sSusp" class="stat-val">—</p></div>
+          </div>
+          <p class="ela-note">ELA highlights regions with different compression levels. Bright areas in the analysis may indicate modifications.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>
