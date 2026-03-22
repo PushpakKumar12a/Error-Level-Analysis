@@ -52,7 +52,7 @@ def perform_ela(img_data, quality: int = 75, amplification: int = 15) -> dict:
     avg_diff = total_diff / px_count
     bad_ratio = bad_px / px_count
 
-    # Determine verdict — same thresholds as the React version
+    # Determine verdict
     if bad_ratio > 0.15 or avg_diff > 50:
         verdict = "likely_tampered"
         confidence_score = min(95, 60 + bad_ratio * 200)
